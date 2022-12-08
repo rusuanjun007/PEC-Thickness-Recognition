@@ -1,0 +1,61 @@
+# run container.
+# docker-compose up
+# copy dataset.
+# docker cp D:\repo\momaml_jax\datasets <container id>:/root/momaml_jax/datasets  
+volumes:
+  tfjax_root_NDT_cpu:
+  tfjax_pip_packages_cpu:
+
+
+services:
+  tfjax_cpu:
+    image: tfjax_cpu
+    container_name: tensorflow_jax_NDT_cpu
+    restart: "no" # always
+    stdin_open: true
+    stop_grace_period: 0s
+    command: bash
+    volumes:
+      - tfjax_pip_packages_cpu:/usr/local/lib/python3.8/dist-packages/
+      - tfjax_root_NDT_cpu:/root
+      - type: bind
+        source: ../datasets
+        target: /root/NDT/datasets
+
+  pip_update:
+    image: tfjax_cpu
+    container_name: NDTpipUpdateProcess_cpu
+    restart: "no" # always
+    stdin_open: true
+    stop_grace_period: 0s
+    depends_on:
+      - tfjax_cpu
+    volumes:
+      - tfjax_pip_packages_cpu:/usr/local/lib/python3.8/dist-packages/
+      - tfjax_root_NDT_cpu:/root
+    command:
+      - /bin/bash
+      - -c
+      - |
+        pip install --upgrade pip  
+        pip install --upgrade black  
+        pip install --upgrade pycodestyle  
+        pip install --upgrade pydot-ng  
+        pip install --upgrade pydot  
+        pip install --upgrade graphviz  
+        pip install --upgrade scipy  
+        pip install --upgrade matplotlib  
+        pip install --upgrade ipython  
+        pip install --upgrade jupyter  
+        pip install --upgrade pandas  
+        pip install --upgrade sympy  
+        pip install --upgrade nose  
+        pip install --upgrade seaborn  
+        pip install --upgrade h5py  
+        pip install --upgrade mlflow  
+        pip install --upgrade "jax[cpu]"
+        pip install --upgrade git+https://github.com/deepmind/dm-haiku  
+        pip install --upgrade optax  
+        pip install --upgrade chex  
+        pip install --upgrade dm-pix
+        pip install --upgrade plotly

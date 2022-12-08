@@ -1,0 +1,14 @@
+venv/
+mlruns/
+local/
+a100/
+v100/
+datasets/MDDECT/
+datasets/multiFreqImages/
+datasets/solderDefects/csvdata/figure
+datasets/solderDefects/csvdata/csv
+temp/
+datasets/PEC
+*Runs/
+PEC_CGAN/
+PEC_VAE/

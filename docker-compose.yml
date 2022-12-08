@@ -1,0 +1,72 @@
+# run container.
+# docker-compose up
+# copy dataset.
+# docker cp D:\repo\momaml_jax\datasets <container id>:/root/momaml_jax/datasets  
+volumes:
+  tfjax_root_NDT:
+  tfjax_pip_packages:
+
+
+services:
+  tfjax:
+    image: tfjax
+    container_name: tensorflow_jax_NDT
+    restart: "no" # always
+    stdin_open: true
+    stop_grace_period: 0s
+    runtime: nvidia
+    command: bash
+    volumes:
+      - tfjax_root_NDT:/root
+      - tfjax_pip_packages:/usr/local/lib/python3.8/dist-packages/
+      - type: bind
+        source: ./datasets
+        target: /root/NDT/datasets
+      # pip_update:
+      #   image: tfjax
+      #   container_name: NDTpipUpdateProcess
+      #   restart: "no" # always
+      #   stdin_open: true
+      #   stop_grace_period: 0s
+      #   runtime: nvidia
+      #   depends_on:
+      #     - tfjax
+      #   volumes:
+      #     - tfjax_root_NDT:/root
+      #     - tfjax_pip_packages:/usr/local/lib/python3.8/dist-packages/
+      #   command:
+      #     - /bin/bash
+      #     - -c
+      #     - |
+      #       pip install --upgrade pip  
+      #       pip install --upgrade black  
+      #       pip install --upgrade pycodestyle  
+      #       pip install --upgrade pydot-ng  
+      #       pip install --upgrade pydot  
+      #       pip install --upgrade graphviz  
+      #       pip install --upgrade scipy  
+      #       pip install --upgrade matplotlib  
+      #       pip install --upgrade ipython  
+      #       pip install --upgrade jupyter  
+      #       pip install --upgrade pandas  
+      #       pip install --upgrade sympy  
+      #       pip install --upgrade nose  
+      #       pip install --upgrade seaborn  
+      #       pip install --upgrade scikit-learn  
+      #       pip install --upgrade h5py  
+      #       pip install --upgrade mlflow  
+      #       pip install --upgrade "jax[cuda]" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html  
+      #       pip install --upgrade git+https://github.com/deepmind/dm-haiku  
+      #       pip install --upgrade optax  
+      #       pip install --upgrade chex  
+      #       pip install --upgrade dm-pix  
+      #       pip install --upgrade absl-py  
+      #       pip install --upgrade tqdm  
+      #       pip install --upgrade thop  
+      #       pip install --upgrade plotly  
+      #       pip install --upgrade notebook  
+      #       pip install --upgrade ipywidgets  
+      #       pip install --upgrade torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113  
+      #       pip install --upgrade tensorflow-addons  
+      #       pip install --upgrade tfds-nightly  
+      #       pip install --upgrade tflite-runtime 
